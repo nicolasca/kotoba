@@ -138,6 +138,16 @@ test('désactiver la traduction ne change pas le mot ni une saisie en cours', ()
   assert.equal(changed.settings.translation, false)
 })
 
+test('changer la police conserve le mot, la tentative et la progression, au clavier comme à l’oral', () => {
+  for (const answerMode of ['keyboard', 'speech'] as const) {
+    const state = { ...type(fresh(), 'tama'), answerMode }
+    for (const japaneseFont of ['sans', 'hand', 'serif'] as const) {
+      const changed = practiceReducer(state, { type: 'settings', patch: { japaneseFont } })
+      assert.deepEqual(changed, { ...state, settings: { ...state.settings, japaneseFont } })
+    }
+  }
+})
+
 const oral = (state = fresh()) => practiceReducer(state, { type: 'answer-mode', mode: 'speech' })
 const say = (state: PracticeState, transcript: string, confidence = 0.9, round = state.round, now = 2) => practiceReducer(state, {
   type: 'speech', alternatives: [{ transcript, confidence }], round, now,

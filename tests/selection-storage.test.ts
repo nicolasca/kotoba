@@ -62,7 +62,7 @@ test('les erreurs augmentent légèrement la probabilité de retour', () => {
 test('paramètres et progression survivent à une sauvegarde / relecture', () => {
   const values = new Map<string, string>()
   const storage = { getItem: (key: string) => values.get(key) ?? null, setItem: (key: string, value: string) => { values.set(key, value) } }
-  const settings = { ...defaultSettings, script: 'katakana' as const, translation: false }
+  const settings = { ...defaultSettings, script: 'katakana' as const, translation: false, japaneseFont: 'hand' as const }
   const progress = { ...emptyProgress(), answers: 3, correct: 2, errors: 1, words: { たまご: { errors: 1, successes: 2, reviewWeight: 0.5 } } }
   assert.equal(saveProgress(settings, progress, storage), true)
   assert.ok(values.has(STORAGE_KEY))
@@ -75,6 +75,16 @@ test('un stockage indisponible ou corrompu ne bloque pas l’entraînement', () 
   assert.equal(saveProgress(defaultSettings, emptyProgress(), unavailable), false)
   for (const data of ['{broken', 'null', '[]', '{"version":2}']) {
     assert.deepEqual(readSaved({ getItem: () => data }), { settings: defaultSettings, progress: emptyProgress() })
+  }
+})
+
+test('les anciennes sauvegardes gardent leur progression et adoptent la police Simple', () => {
+  const { japaneseFont: _font, ...settings } = defaultSettings
+  const progress = { ...emptyProgress(), answers: 12, correct: 10, errors: 2 }
+  for (const oldSettings of [settings, { ...settings, japaneseFont: 'missing-font' }]) {
+    const restored = readSaved({ getItem: () => JSON.stringify({ version: 1, settings: oldSettings, progress }) })
+    assert.equal(restored.settings.japaneseFont, 'sans')
+    assert.deepEqual(restored.progress, progress)
   }
 })
 

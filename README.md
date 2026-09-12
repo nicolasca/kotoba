@@ -33,10 +33,16 @@ La progression enregistrée en local ne migre pas automatiquement vers l’adres
 - **Échap** : révéler la lecture et son sens ; une seconde pression passe au mot suivant.
 - **Tab / Maj+Tab** : parcourir les commandes. Échap ferme les paramètres et rend le focus à la réponse.
 - **Hiragana / Katakana / Mixte** : choisir le syllabaire. Le mode mixte équilibre les deux écritures quand les filtres le permettent.
-- **Paramètres** : difficulté, longueur et traduction après réussite. La traduction n’apparaît jamais avant une réponse, sauf demande explicite avec « Je ne sais pas ».
+- **Paramètres** : police des caractères japonais, difficulté, longueur et traduction après réussite. La traduction n’apparaît jamais avant une réponse, sauf demande explicite avec « Je ne sais pas ».
 - **60 secondes** : Entrée sur « Démarrer » lance le chrono. Un retour à « Libre » quitte le chrono. Le bilan affiche les mots parcourus (réponses trouvées ou révélées), les bonnes réponses, les mots avec erreur et les mots correctement lus par minute.
 
 Le thème suit `prefers-color-scheme` : clair par défaut, sombre si le système le demande. La page s’adapte au mobile ; les animations sont désactivées avec `prefers-reduced-motion`.
+
+### Choisir le tracé des caractères
+
+Dans **Paramètres → Écriture japonaise**, comparer trois polices sur les mêmes hiragana et katakana : **Simple** (Noto Sans JP, par défaut), **Manuscrite** (Klee One) et **Livre** (Noto Serif JP). Le choix s’applique immédiatement au mot, aux retours en japonais et aux exemples d’aide, sans changer le mot ni effacer une réponse commencée. Il est mémorisé sur cet appareil. Les sauvegardes précédentes conservent leur progression et adoptent la police Simple.
+
+Les trois polices sont livrées avec l’application, sans requête à Google Fonts pendant l’utilisation. Les fichiers WOFF2 couvrent les kana de toute la banque ; leurs licences et sources se trouvent dans `public/fonts/`. Aucun kanji n’est inclus dans ces fichiers limités aux kana.
 
 ## Lecture à voix haute (facultative)
 

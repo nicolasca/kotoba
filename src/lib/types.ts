@@ -5,6 +5,7 @@ export type Difficulty = 'all' | Exclude<Feature, 'handakuten'>
 export type WordLength = 'all' | 'short' | 'medium' | 'long'
 export type PracticeMode = 'free' | 'speed'
 export type AnswerMode = 'keyboard' | 'speech'
+export type JapaneseFont = 'sans' | 'hand' | 'serif'
 
 export interface Word {
   kana: string
@@ -20,6 +21,7 @@ export interface Settings {
   length: WordLength
   translation: boolean
   practice: PracticeMode
+  japaneseFont: JapaneseFont
 }
 
 export interface WordProgress {

@@ -1,5 +1,11 @@
 import { useEffect, useRef } from 'react'
-import type { Difficulty, Settings, WordLength } from '../lib/types.ts'
+import type { Difficulty, JapaneseFont, Settings, WordLength } from '../lib/types.ts'
+
+const fontChoices: { value: JapaneseFont; label: string; family: string }[] = [
+  { value: 'sans', label: 'Simple', family: 'Noto Sans JP' },
+  { value: 'hand', label: 'Manuscrite', family: 'Klee One' },
+  { value: 'serif', label: 'Livre', family: 'Noto Serif JP' },
+]
 
 export const difficultyLabels: Record<Difficulty, string> = {
   all: 'Toutes les difficultés', basic: 'Kana simples', dakuten: 'Dakuten et handakuten · が ぱ',
@@ -30,7 +36,18 @@ export default function SettingsDialog({ open, settings, poolSize, totalAnswers,
     }
   }}>
     <div className="dialog-header"><h2 id="settings-title">À votre rythme.</h2><button className="icon-button close-button" onClick={onClose} aria-label="Fermer les paramètres">×</button></div>
-    <p className="dialog-intro">Choisissez les mots à pratiquer.</p>
+    <p className="dialog-intro">Adaptez la lecture à vos habitudes.</p>
+    <fieldset className="font-settings" aria-describedby="font-help">
+      <legend>Écriture japonaise</legend>
+      <p id="font-help">Les mêmes caractères, trois tracés. Choisissez le plus familier.</p>
+      <div className="font-choices">
+        {fontChoices.map(({ value, label, family }) => <label key={value} className={`font-choice ${settings.japaneseFont === value ? 'is-selected' : ''}`} data-japanese-font={value}>
+          <input type="radio" name="japanese-font" value={value} checked={settings.japaneseFont === value} onChange={() => onChange({ japaneseFont: value })}/>
+          <span className="font-choice-name">{label}<small>{family}</small></span>
+          <span className="font-preview" lang="ja" aria-hidden="true">あきさり<span>アキサリ</span></span>
+        </label>)}
+      </div>
+    </fieldset>
     <label className="setting-field">Difficulté
       <select value={settings.difficulty} onChange={(event) => onChange({ difficulty: event.target.value as Difficulty })}>
         {Object.entries(difficultyLabels).map(([value, label]) => <option key={value} value={value}>{label}</option>)}

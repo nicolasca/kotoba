@@ -99,7 +99,7 @@ export function practiceReducer(current: PracticeState, action: PracticeAction):
   if (action.type === 'settings') {
     if (state.speedStatus === 'running' && action.patch.practice !== 'free') return state
     const settings = { ...state.settings, ...action.patch }
-    if (Object.keys(action.patch).every((key) => key === 'translation')) return { ...state, settings }
+    if (Object.keys(action.patch).every((key) => key === 'translation' || key === 'japaneseFont')) return { ...state, settings }
     return {
       ...nextWord({ ...state, settings }), feedback: 'idle', lastResult: null,
       speedStatus: 'ready', deadline: null, remainingMs: SPEED_DURATION,

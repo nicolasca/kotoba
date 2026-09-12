@@ -76,7 +76,7 @@ export default function App() {
     : state.feedback === 'success' ? (oral ? 'Mot reconnu !' : 'Bien lu !') : ''
   const successNotice = state.feedback === 'success' ? <span className="success-feedback"><CheckIcon/>{settings.translation && state.lastResult ? <><span lang="ja">{state.lastResult.kana}</span><span className="feedback-dash">—</span>{state.lastResult.meaning}</> : feedback}</span> : null
 
-  return <div className="app-shell">
+  return <div className="app-shell" data-japanese-font={settings.japaneseFont}>
     <header className="site-header">
       <div className="brand" aria-label="Kotoba, lecture mot à mot"><span className="wordmark">kotoba<span>.</span></span><span className="brand-caption">LECTURE, MOT À MOT</span></div>
       <button className="settings-button" onClick={() => setSettingsOpen(true)} disabled={running} title={running ? 'Les réglages seront disponibles après le chrono.' : 'Paramètres'} aria-label="Paramètres"><SettingsIcon/><span>Paramètres</span></button>

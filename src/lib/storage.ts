@@ -1,7 +1,7 @@
 import type { Progress, Settings } from './types.ts'
 
 export const STORAGE_KEY = 'kana-lecture:v1'
-export const defaultSettings: Settings = { script: 'hiragana', difficulty: 'all', length: 'all', translation: true, practice: 'free' }
+export const defaultSettings: Settings = { script: 'hiragana', difficulty: 'all', length: 'all', translation: true, practice: 'free', japaneseFont: 'sans' }
 export function emptyProgress(): Progress { return { answers: 0, correct: 0, errors: 0, words: {} } }
 
 type StorageReader = Pick<Storage, 'getItem'>
@@ -21,6 +21,7 @@ export function readSaved(storage?: StorageReader): { settings: Settings; progre
       difficulty: ['all', 'basic', 'dakuten', 'youon', 'small-tsu', 'long-vowel', 'mixed-complexity'],
       length: ['all', 'short', 'medium', 'long'],
       practice: ['free', 'speed'],
+      japaneseFont: ['sans', 'hand', 'serif'],
     }
     for (const key of Object.keys(choices) as (keyof typeof choices)[]) {
       if (typeof s[key] === 'string' && choices[key].includes(s[key])) Object.assign(settings, { [key]: s[key] })
