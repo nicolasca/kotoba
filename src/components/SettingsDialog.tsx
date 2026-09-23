@@ -60,14 +60,14 @@ export default function SettingsDialog({ open, settings, poolSize, totalAnswers,
       </select>
     </label>
     <p className="pool-count">{poolSize} mots disponibles <span>· petits kana et ー comptés</span></p>
-    <label className="toggle-setting"><span>Traduction après une réussite<small>Un bref aperçu du mot que vous venez de lire.</small></span>
+    <label className="toggle-setting"><span>Afficher le sens après une réussite<small>Désactivé par défaut pour privilégier la lecture.</small></span>
       <input type="checkbox" checked={settings.translation} onChange={(event) => onChange({ translation: event.target.checked })} />
     </label>
     <details className="reading-help"><summary>Quelques repères de lecture</summary>
       <p><span lang="ja">し · ち · つ · ふ</span> → shi / si · chi / ti · tsu / tu</p>
       <p><span lang="ja">がっこう</span> → gakkou / gakkoo<br/><span lang="ja">コーヒー</span> → koohii / kōhī<br/><span lang="ja">ほんや</span> → honya / hon’ya</p>
       <p>Gardez les consonnes doubles et les voyelles longues. Les macrons sont facultatifs.</p>
-      <p>Un mot compte au plus une erreur par apparition, même après plusieurs essais. Deux réussites sans erreur réduisent le rappel d’une erreur passée.</p>
+      <p>Un mot compte au plus une erreur par apparition, même après plusieurs essais. Une erreur ne le fait pas revenir plus souvent : chaque mot disponible est tiré une fois au hasard avant le début d’un nouveau cycle.</p>
     </details>
     <div className="dialog-footer"><span>{totalAnswers} réponses enregistrées</span><button className="primary-button" onClick={onClose}>Reprendre <span aria-hidden="true">↵</span></button></div>
   </dialog>

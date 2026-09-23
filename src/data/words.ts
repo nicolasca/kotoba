@@ -314,6 +314,108 @@ const hiragana = `
 だいじょうぶ|daijoubu,daijoobu|ça va ; sans problème
 ほんとう|hontou,hontoo|vérité ; vraiment
 りょうり|ryouri,ryoori|cuisine (préparation)
+# Sensations, saisons et déplacements — 50
+おと|oto|son
+こえ|koe|voix
+におい|nioi|odeur
+あじ|aji|goût ; saveur
+いろ|iro|couleur
+あか|aka|rouge
+あお|ao|bleu
+しろ|shiro|blanc
+くろ|kuro|noir
+きいろ|kiiro|jaune
+ちゃいろ|chairo|marron
+むらさき|murasaki|violet
+みどり|midori|vert
+はる|haru|printemps
+なつ|natsu|été
+あき|aki|automne
+ふゆ|fuyu|hiver
+くび|kubi|cou
+かた|kata|épaule
+て|te|main
+ひじ|hiji|coude
+ひざ|hiza|genou
+つめ|tsume|ongle
+まど|mado|fenêtre
+かべ|kabe|mur
+ゆか|yuka|sol ; plancher
+かいだん|kaidan|escalier
+ちか|chika|sous-sol
+でんしゃ|densha|train
+ちかてつ|chikatetsu|métro
+じてんしゃ|jitensha|vélo
+じどうしゃ|jidousha|voiture
+ひこうき|hikouki|avion
+ふね|fune|bateau
+こうさてん|kousaten|carrefour
+しんごう|shingou|feu de circulation
+ちゅうしゃじょう|chuushajou|parking
+たいふう|taifuu|typhon
+じしん|jishin|tremblement de terre
+かみなり|kaminari|tonnerre
+にじ|niji|arc-en-ciel
+はこぶ|hakobu|transporter
+さがす|sagasu|chercher
+みつける|mitsukeru|trouver
+ひろう|hirou|ramasser
+すてる|suteru|jeter
+ならぶ|narabu|faire la queue
+まがる|magaru|tourner
+わたる|wataru|traverser
+もどる|modoru|revenir
+# Études, travail et services — 50
+たてもの|tatemono|bâtiment
+しょうてんがい|shoutengai,shootengai|rue commerçante
+ひろば|hiroba|place ; espace ouvert
+こうじょう|koujou,koojou|usine
+しょくば|shokuba|lieu de travail
+てんいん|tenin|vendeur ; employé de magasin
+てんちょう|tenchou,tenchoo|responsable de magasin
+きゃく|kyaku|client ; invité
+しんせき|shinseki|membre de la famille
+りょうしん|ryoushin,ryooshin|parents
+きょうだい|kyoudai,kyoodai|frères et sœurs
+となり|tonari|voisin ; à côté
+しゅくだい|shukudai|devoirs
+じゅぎょう|jugyou,jugyoo|cours
+しけん|shiken|examen
+もんだい|mondai|question ; problème
+こたえ|kotae|réponse
+しつもん|shitsumon|question
+せつめい|setsumei|explication
+れんしゅう|renshuu|entraînement
+もくひょう|mokuhyou,mokuhyoo|objectif
+しゅうかん|shuukan|habitude
+しごと|shigoto|travail
+きゅうりょう|kyuuryou,kyuuryoo|salaire
+かいぎ|kaigi|réunion
+ふうとう|fuutou,fuutoo|enveloppe
+きって|kitte|timbre
+はがき|hagaki|carte postale
+こづつみ|kozutsumi|colis
+はいたつ|haitatsu|livraison
+りょうきん|ryoukin|tarif ; frais
+ねだん|nedan|prix
+げんきん|genkin|espèces
+おつり|otsuri|monnaie rendue
+ぶんぼうぐ|bunbougu|fournitures de bureau
+きゅうけい|kyuukei|pause
+うけつけ|uketsuke|accueil ; réception
+じゅんび|junbi|préparation
+よてい|yotei|programme ; projet
+そうだん|soudan,soodan|discussion ; conseil
+しゅうり|shuuri|réparation
+せんたく|sentaku|lessive
+そうじ|souji|ménage
+かいもの|kaimono|courses
+あんない|annai|indication ; visite guidée
+しゅっぱつ|shuppatsu|départ
+とうちゃく|touchaku|arrivée
+まちあわせ|machiawase|rendez-vous
+ひっこし|hikkoshi|déménagement
+しょくりょう|shokuryou,shokuryoo|denrées alimentaires
 `
 
 const katakana = `
@@ -523,6 +625,108 @@ const katakana = `
 マナー|manaa|bonnes manières
 チャンス|chansu|occasion ; chance
 アイデア|aidea|idée
+# Services, achats et santé — 50
+メニュー|menyuu|menu
+サービス|saabisu|service
+システム|shisutemu|système
+データ|deeta|données
+サイズ|saizu|taille
+カラー|karaa|couleur
+モデル|moderu|modèle
+デザイン|dezain|design
+ブランド|burando|marque
+セール|seeru|soldes
+レジ|reji|caisse
+レシート|reshiito|ticket de caisse
+ポイント|pointo|points de fidélité ; point
+クーポン|kuupon|coupon de réduction
+キャッシュレス|kyasshuresu|sans espèces
+クレジット|kurejitto|crédit
+カード|kaado|carte
+サイン|sain|signature
+キャンセル|kyanseru|annulation
+アレルギー|arerugii|allergie
+ウイルス|uirusu|virus
+ストレス|sutoressu|stress
+カロリー|karorii|calorie
+エネルギー|enerugii|énergie
+マスク|masuku|masque
+リラックス|rirakkusu|se détendre
+トレーニング|toreeningu|entraînement
+レッスン|ressun|cours ; leçon
+レベル|reberu|niveau
+テスト|tesuto|test
+チェック|chekku|vérification
+センター|sentaa|centre
+アドレス|adoresu|adresse
+メンバー|menbaa|membre
+イベント|ibento|événement
+フォーム|foomu|formulaire
+キャンペーン|kyanpeen|campagne promotionnelle
+アンケート|ankeeto|questionnaire
+ページ|peeji|page
+パッケージ|pakkeeji|emballage
+イメージ|imeeji|image ; impression
+バランス|baransu|équilibre
+チーム|chiimu|équipe
+プラン|puran|plan
+サポート|sapooto|assistance
+アドバイス|adobaisu|conseil
+ルート|ruuto|itinéraire
+コース|koosu|parcours ; menu
+スケジュール|sukejuuru|planning
+ユーザー|yuuzaa|utilisateur
+# Pays, repas et communication — 50
+フランス|furansu|France
+イタリア|itaria|Italie
+スペイン|supein|Espagne
+ドイツ|doitsu|Allemagne
+イギリス|igirisu|Royaume-Uni
+アメリカ|amerika|États-Unis
+カナダ|kanada|Canada
+オーストラリア|oosutoraria|Australie
+アジア|ajia|Asie
+ヨーロッパ|yooroppa|Europe
+メートル|meetoru|mètre
+タイミング|taimingu|moment ; timing
+チャンネル|channeru|chaîne
+ライブ|raibu|concert ; direct
+ランチ|ranchi|déjeuner
+ディナー|dinaa|dîner
+デザート|dezaato|dessert
+ビュッフェ|byuffe|buffet
+テイクアウト|teikuauto|à emporter
+デリバリー|deribarii|livraison
+アイスティー|aisutii|thé glacé
+ココア|kokoa|cacao ; chocolat chaud
+シリアル|shiriaru|céréales
+オリーブ|oriibu|olive
+アボカド|abokado|avocat
+スパイス|supaisu|épice
+フルーツ|furuutsu|fruits
+スムージー|sumuujii|smoothie
+サプリメント|sapurimento|complément alimentaire
+ドリンク|dorinku|boisson
+レシピ|reshipi|recette
+アクセント|akusento|accent
+インタビュー|intabyuu|entretien ; interview
+スピーチ|supiichi|discours
+タイトル|taitoru|titre
+テーマ|teema|thème
+キーワード|kiiwaado|mot-clé
+インフォメーション|infomeeshon|renseignements
+マップ|mappu|plan ; carte
+エリア|eria|zone
+スペース|supeesu|espace
+フロア|furoa|étage
+オーナー|oonaa|propriétaire
+スタッフ|sutaffu|personnel
+マネージャー|maneejaa|responsable ; manager
+キャリア|kyaria|carrière
+プロジェクト|purojekuto|projet
+ミーティング|miitingu|réunion
+プレゼン|purezen|présentation
+アイコン|aikon|icône
 `
 
 function parseWords(rows: string, script: Script): Word[] {

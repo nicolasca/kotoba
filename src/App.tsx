@@ -4,7 +4,7 @@ import SpeechAnswer from './components/SpeechAnswer.tsx'
 import { CheckIcon, EnterIcon, SettingsIcon } from './components/Icons.tsx'
 import { words } from './data/words.ts'
 import { createPractice, practiceReducer } from './lib/practice.ts'
-import { readSaved, saveProgress } from './lib/storage.ts'
+import { readSaved, readWordRotation, saveProgress } from './lib/storage.ts'
 import { filterWords } from './lib/wordSelection.ts'
 import type { ScriptMode, Settings } from './lib/types.ts'
 import type { SpeechAlternative } from './lib/speech.ts'
@@ -12,7 +12,7 @@ import type { SpeechAlternative } from './lib/speech.ts'
 const scriptLabels: Record<ScriptMode, string> = { hiragana: 'Hiragana', katakana: 'Katakana', mixed: 'Mixte' }
 
 export default function App() {
-  const [state, dispatch] = useReducer(practiceReducer, undefined, () => createPractice(readSaved()))
+  const [state, dispatch] = useReducer(practiceReducer, undefined, () => createPractice({ ...readSaved(), rotation: readWordRotation() }))
   const [settingsOpen, setSettingsOpen] = useState(false)
   const [saved, setSaved] = useState(true)
   const [compositionDraft, setCompositionDraft] = useState<string | null>(null)
@@ -40,7 +40,9 @@ export default function App() {
     } else inputRef.current?.focus({ preventScroll: true })
   }, [oral])
 
-  useEffect(() => { setSaved(saveProgress(settings, state.progress)) }, [settings, state.progress])
+  useEffect(() => { setSaved(saveProgress(settings, state.progress, undefined, {
+    poolKey: state.deckPoolKey, current: state.word?.kana ?? null, remaining: state.deck,
+  })) }, [settings, state.progress, state.deckPoolKey, state.word, state.deck])
   useEffect(() => {
     if (settingsOpen) return
     if (active) focusAnswer()
@@ -150,7 +152,7 @@ export default function App() {
             </form>
             <div className="exercise-meta">
               {settings.difficulty !== 'all' && <button onClick={() => setSettingsOpen(true)} disabled={running}>{difficultyLabels[settings.difficulty]}</button>}
-              {stats.errors > 0 && <span>{stats.errors} {stats.errors > 1 ? 'mots à revoir' : 'mot à revoir'}</span>}
+              {stats.errors > 0 && <span>{stats.errors} {stats.errors > 1 ? 'erreurs de lecture' : 'erreur de lecture'}</span>}
             </div>
           </>}
       </section>

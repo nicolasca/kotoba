@@ -42,21 +42,21 @@ function seeded() {
   return () => { seed = (1664525 * seed + 1013904223) >>> 0; return seed / 4294967296 }
 }
 
-test('le mode mixte équilibre les syllabaires malgré la banque 300 / 200', () => {
+test('le mode mixte équilibre les syllabaires malgré la banque 400 / 300', () => {
   const random = seeded()
   let hira = 0
   for (let i = 0; i < 6000; i++) if (chooseWord(words, emptyProgress(), [], random)?.script === 'hiragana') hira++
   assert.ok(hira > 2800 && hira < 3200, `${hira} sur 6000`)
 })
 
-test('les erreurs augmentent légèrement la probabilité de retour', () => {
+test('les erreurs ne changent pas le tirage aléatoire', () => {
   const pool = words.slice(0, 2)
   const progress = emptyProgress()
   progress.words[pool[0].kana] = { errors: 1, successes: 0, reviewWeight: 1 }
   const random = seeded()
   let selected = 0
   for (let i = 0; i < 3000; i++) if (chooseWord(pool, progress, [], random)?.kana === pool[0].kana) selected++
-  assert.ok(selected > 1850 && selected < 2150, `${selected} sur 3000`)
+  assert.ok(selected > 1400 && selected < 1600, `${selected} sur 3000`)
 })
 
 test('paramètres et progression survivent à une sauvegarde / relecture', () => {
@@ -73,7 +73,7 @@ test('un stockage indisponible ou corrompu ne bloque pas l’entraînement', () 
   const unavailable = { getItem: () => { throw new Error('blocked') }, setItem: () => { throw new Error('quota') } }
   assert.deepEqual(readSaved(unavailable), { settings: defaultSettings, progress: emptyProgress() })
   assert.equal(saveProgress(defaultSettings, emptyProgress(), unavailable), false)
-  for (const data of ['{broken', 'null', '[]', '{"version":2}']) {
+  for (const data of ['{broken', 'null', '[]', '{"version":3}']) {
     assert.deepEqual(readSaved({ getItem: () => data }), { settings: defaultSettings, progress: emptyProgress() })
   }
 })

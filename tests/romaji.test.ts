@@ -9,11 +9,11 @@ const word = (kana: string) => {
   return entry
 }
 
-test('500 mots entiers et uniques, 300 hiragana / 200 katakana, sans kanji', () => {
-  assert.equal(words.length, 500)
-  assert.equal(words.filter((entry) => entry.script === 'hiragana').length, 300)
-  assert.equal(words.filter((entry) => entry.script === 'katakana').length, 200)
-  assert.equal(new Set(words.map((entry) => entry.kana)).size, 500)
+test('700 mots entiers et uniques, 400 hiragana / 300 katakana, sans kanji', () => {
+  assert.equal(words.length, 700)
+  assert.equal(words.filter((entry) => entry.script === 'hiragana').length, 400)
+  assert.equal(words.filter((entry) => entry.script === 'katakana').length, 300)
+  assert.equal(new Set(words.map((entry) => entry.kana)).size, 700)
   for (const entry of words) {
     assert.match(entry.kana, entry.script === 'hiragana' ? /^[ぁ-ゖ]+$/ : /^[ァ-ヺー]+$/)
     assert.ok([...entry.kana].length >= 2, entry.kana)

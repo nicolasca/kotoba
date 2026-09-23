@@ -27,7 +27,7 @@ export function filterWords(words: readonly Word[], settings: Pick<Settings, 'sc
   })
 }
 
-export function chooseWord(pool: readonly Word[], progress: Progress, recent: readonly string[] = [], random: () => number = Math.random): Word | null {
+export function chooseWord(pool: readonly Word[], _progress: Progress, recent: readonly string[] = [], random: () => number = Math.random): Word | null {
   if (!pool.length) return null
   const excluded = recent.slice(-Math.min(3, pool.length - 1))
   let candidates = pool.filter((word) => !excluded.includes(word.kana))
@@ -35,11 +35,31 @@ export function chooseWord(pool: readonly Word[], progress: Progress, recent: re
   const hira = candidates.filter((word) => word.script === 'hiragana')
   const kata = candidates.filter((word) => word.script === 'katakana')
   if (hira.length && kata.length) candidates = random() < 0.5 ? hira : kata
-  const weights = candidates.map((word) => 1 + (progress.words[word.kana]?.reviewWeight ?? 0))
-  let cursor = random() * weights.reduce((sum, weight) => sum + weight, 0)
-  for (let i = 0; i < candidates.length; i++) {
-    cursor -= weights[i]
-    if (cursor < 0) return candidates[i]
+  return candidates[Math.min(candidates.length - 1, Math.floor(random() * candidates.length))]
+}
+
+export function wordPoolKey(pool: readonly Word[]): string {
+  return pool.map((word) => word.kana).join('|')
+}
+
+export function shuffledWordOrder(pool: readonly Word[], random: () => number = Math.random): string[] {
+  const lanes = {
+    hiragana: pool.filter((word) => word.script === 'hiragana').map((word) => word.kana),
+    katakana: pool.filter((word) => word.script === 'katakana').map((word) => word.kana),
   }
-  return candidates[candidates.length - 1]
+  for (const lane of Object.values(lanes)) {
+    for (let index = lane.length - 1; index > 0; index--) {
+      const other = Math.floor(random() * (index + 1))
+      ;[lane[index], lane[other]] = [lane[other], lane[index]]
+    }
+  }
+
+  const order: string[] = []
+  while (lanes.hiragana.length || lanes.katakana.length) {
+    const hasBoth = lanes.hiragana.length > 0 && lanes.katakana.length > 0
+    const lane = hasBoth ? (random() < 0.5 ? lanes.hiragana : lanes.katakana)
+      : lanes.hiragana.length ? lanes.hiragana : lanes.katakana
+    order.push(lane.pop()!)
+  }
+  return order
 }

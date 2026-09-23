@@ -10,7 +10,7 @@ const word = (kana: string) => {
   return result
 }
 
-test('les 500 mots sont reconnus en kana, avec ponctuation et espace du moteur vocal', () => {
+test('les 700 mots sont reconnus en kana, avec ponctuation et espace du moteur vocal', () => {
   for (const entry of words) assert.ok(matchesSpokenWord(entry, ` ${entry.kana}。 `), entry.kana)
   assert.equal(normalizeTranscript(' ｺｰﾋｰ、 '), 'こーひー')
   assert.ok(matchesSpokenWord(word('たまご'), 'タマゴ'))

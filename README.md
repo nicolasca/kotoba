@@ -32,8 +32,8 @@ La progression enregistrée en local ne migre pas automatiquement vers l’adres
 - **Entrée** : valider une tentative, ou continuer après une révélation.
 - **Échap** : révéler la lecture et son sens ; une seconde pression passe au mot suivant.
 - **Tab / Maj+Tab** : parcourir les commandes. Échap ferme les paramètres et rend le focus à la réponse.
-- **Hiragana / Katakana / Mixte** : choisir le syllabaire. Le mode mixte équilibre les deux écritures quand les filtres le permettent.
-- **Paramètres** : police des caractères japonais, difficulté, longueur et traduction après réussite. La traduction n’apparaît jamais avant une réponse, sauf demande explicite avec « Je ne sais pas ».
+- **Hiragana / Katakana / Mixte** : choisir le syllabaire. Le mode mixte est sélectionné par défaut et équilibre les deux écritures quand les filtres le permettent.
+- **Paramètres** : police des caractères japonais, difficulté, longueur et traduction après réussite. La traduction est désactivée par défaut et n’apparaît jamais avant une réponse, sauf demande explicite avec « Je ne sais pas ».
 - **60 secondes** : Entrée sur « Démarrer » lance le chrono. Un retour à « Libre » quitte le chrono. Le bilan affiche les mots parcourus (réponses trouvées ou révélées), les bonnes réponses, les mots avec erreur et les mots correctement lus par minute.
 
 Le thème suit `prefers-color-scheme` : clair par défaut, sombre si le système le demande. La page s’adapte au mobile ; les animations sont désactivées avec `prefers-reduced-motion`.
@@ -77,9 +77,9 @@ Les variantes `ou` / `oo` et `ei` / `ee` sont renseignées **mot par mot**. On n
 
 ## Banque de mots
 
-`src/data/words.ts` contient **500 mots distincts : 300 en hiragana, 200 en katakana**. Chaque ligne associe kana, lectures et sens français. L’export `words` fournit des objets `{ kana, romaji: string[], meaning, script, features }`.
+`src/data/words.ts` contient **700 mots distincts : 400 en hiragana, 300 en katakana**. Chaque ligne associe kana, lectures et sens français. L’export `words` fournit des objets `{ kana, romaji: string[], meaning, script, features }`.
 
-Les mots ont été sélectionnés et les traductions courtes rédigées pour cette application : alimentation, animaux, nature, personnes, corps, lieux, objets, temps, actions, adjectifs, emprunts du quotidien. Les mots habituellement écrits en kanji sont présentés en hiragana. Aucun exercice ne contient de kanji. Les verbes sont à la forme dictionnaire ; quelques noms d’action et expressions courantes complètent la liste.
+Les mots ont été sélectionnés et les traductions courtes rédigées pour cette application : alimentation, animaux, nature, saisons, sensations, personnes, corps, lieux, déplacements, objets, temps, actions, études, travail, adjectifs, services et emprunts du quotidien. Les mots habituellement écrits en kanji sont présentés en hiragana. Aucun exercice ne contient de kanji. Les verbes sont à la forme dictionnaire ; quelques noms d’action et expressions courantes complètent la liste.
 
 Les tests contrôlent toute la banque : effectif, écritures, doublons, structure, lectures principales et cas particuliers. Ils vérifient la cohérence de transcription ; ils ne remplacent pas une relecture lexicographique humaine.
 
@@ -91,9 +91,9 @@ Les caractéristiques sont dérivées des kana : `basic`, `dakuten`, `handakuten
 
 Une apparition d’un mot peut compter **au plus une erreur**, même après plusieurs essais. Révéler un mot compte comme une erreur et une réponse parcourue, sans augmenter les bonnes réponses. Une correction réussie reste une bonne réponse, mais ne supprime pas l’erreur initiale.
 
-Une erreur augmente le poids de tirage du mot de 1 (poids normal 1 ; bonus plafonné à 3). Chaque réussite sans erreur réduit ce bonus de 0,5. Deux réussites propres compensent donc une erreur. Le mot précédent est exclu du prochain tirage si le filtre laisse plusieurs mots ; les trois derniers sont évités quand le choix le permet. Ce n’est pas un système SRS.
+Les mots sont mélangés en cycles sans remise : chaque mot du pool sélectionné apparaît une fois avant qu’un nouveau mélange commence. Le tirage est enregistré avec la progression afin de continuer la rotation après fermeture ou rechargement du navigateur. Les erreurs ne changent pas l’ordre ni la fréquence de retour des mots. En mode mixte, les deux syllabaires sont alternés autant que le permet leur effectif.
 
-La clé `kana-lecture:v1` de `localStorage` conserve les paramètres, les compteurs totaux et les erreurs/réussites par mot avec leur bonus de rappel. Les compteurs affichés sur l’écran de lecture concernent la session ; le total enregistré est visible dans les paramètres. Le chronomètre n’est pas repris après un rechargement.
+La clé `kana-lecture:v1` de `localStorage` conserve les paramètres, la progression, les erreurs/réussites par mot et la position dans le cycle de tirage. La migration des anciennes sauvegardes élargit le filtre par défaut au mode mixte et désactive la traduction après réussite. Les compteurs affichés sur l’écran de lecture concernent la session ; le total enregistré est visible dans les paramètres. Le chronomètre n’est pas repris après un rechargement.
 
 La progression reste dans le navigateur utilisé et dépend de l’adresse **et du port** : `localhost` et `127.0.0.1` ont des sauvegardes distinctes. Un stockage bloqué ou endommagé ne bloque pas les exercices ; le bas de page indique alors que la progression reste limitée à la session. Aucun compte, backend, analyseur d’usage ou base de données n’est utilisé. Seule la reconnaissance vocale facultative peut faire appel au service distant du navigateur.
 
@@ -108,12 +108,12 @@ src/
     SpeechAnswer.tsx          bouton micro et retours de reconnaissance
     Icons.tsx                 quatre icônes SVG
   data/
-    words.ts                  banque des 500 mots
+    words.ts                  banque des 700 mots
     spokenForms.ts            formes écrites pour la reconnaissance orale
   lib/
     types.ts                  types partagés
     romaji.ts                 lectures et variantes
-    wordSelection.ts          filtres et tirage pondéré
+    wordSelection.ts          filtres et cycles aléatoires sans remise
     practice.ts               logique de l’exercice et du chrono
     storage.ts                sauvegarde locale validée
     speech.ts                 correspondances entre transcriptions et mots

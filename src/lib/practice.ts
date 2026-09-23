@@ -1,16 +1,17 @@
 import { words } from '../data/words.ts'
 import { acceptedReadings, answerState } from './romaji.ts'
-import { chooseWord, filterWords } from './wordSelection.ts'
+import { filterWords, shuffledWordOrder, wordPoolKey } from './wordSelection.ts'
 import { matchingSpeech } from './speech.ts'
 import type { SpeechAlternative } from './speech.ts'
-import type { AnswerMode, Progress, SessionStats, Settings, Word } from './types.ts'
+import type { AnswerMode, Progress, SessionStats, Settings, Word, WordRotation } from './types.ts'
 
 export const SPEED_DURATION = 60_000
 export interface PracticeState {
   settings: Settings
   progress: Progress
   word: Word | null
-  recent: string[]
+  deck: string[]
+  deckPoolKey: string
   input: string
   hadError: boolean
   revealed: boolean
@@ -34,20 +35,56 @@ export type PracticeAction =
 
 function emptyStats(): SessionStats { return { correct: 0, errors: 0, skipped: 0 } }
 
-export function createPractice(saved: { settings: Settings; progress: Progress }): PracticeState {
+function cleanDeck(pool: readonly Word[], keys: readonly string[], current: string | null = null): string[] {
+  const allowed = new Set(pool.map((word) => word.kana))
+  const seen = new Set<string>(current ? [current] : [])
+  return keys.filter((kana) => {
+    if (!allowed.has(kana) || seen.has(kana)) return false
+    seen.add(kana)
+    return true
+  })
+}
+
+function drawNext(pool: readonly Word[], queue: readonly string[], previous: string | null = null): { word: Word | null; deck: string[] } {
+  if (!pool.length) return { word: null, deck: [] }
+  const byKana = new Map(pool.map((word) => [word.kana, word] as const))
+  let deck = cleanDeck(pool, queue)
+  if (!deck.length) deck = shuffledWordOrder(pool)
+  if (previous && deck.length > 1 && deck[0] === previous) [deck[0], deck[1]] = [deck[1], deck[0]]
+  const [kana, ...remaining] = deck
+  return { word: byKana.get(kana) ?? null, deck: remaining }
+}
+
+export function createPractice(saved: { settings: Settings; progress: Progress; rotation?: WordRotation | null }): PracticeState {
   const pool = filterWords(words, saved.settings)
-  const firstWord = saved.progress.answers === 0 ? pool.find((word) => word.kana === 'たまご') : null
+  const deckPoolKey = wordPoolKey(pool)
+  const rotation = saved.rotation?.poolKey === deckPoolKey ? saved.rotation : null
+  const restoredCurrent = rotation?.current ? pool.find((word) => word.kana === rotation.current) : null
+  let word = restoredCurrent ?? null
+  let deck = cleanDeck(pool, rotation?.remaining ?? [], word?.kana ?? null)
+  if (!word && !rotation && saved.progress.answers === 0) {
+    word = pool.find((entry) => entry.kana === 'たまご') ?? null
+    deck = shuffledWordOrder(pool).filter((kana) => kana !== word?.kana)
+  } else if (!word) {
+    const drawn = drawNext(pool, deck, rotation?.current ?? null)
+    word = drawn.word
+    deck = drawn.deck
+  }
   return {
-    ...saved, word: firstWord ?? chooseWord(pool, saved.progress), recent: [], input: '', hadError: false,
+    settings: saved.settings, progress: saved.progress, word, deck, deckPoolKey, input: '', hadError: false,
     revealed: false, feedback: 'idle', lastResult: null, stats: emptyStats(),
     speedStatus: 'ready', deadline: null, remainingMs: SPEED_DURATION, round: 0, answerMode: 'keyboard',
   }
 }
 
 function nextWord(state: PracticeState): PracticeState {
-  const recent = [...state.recent, ...(state.word ? [state.word.kana] : [])].slice(-3)
+  const pool = filterWords(words, state.settings)
+  const deckPoolKey = wordPoolKey(pool)
+  const samePool = deckPoolKey === state.deckPoolKey
+  const queue = samePool ? cleanDeck(pool, state.deck, state.word?.kana ?? null) : []
+  const drawn = drawNext(pool, queue, state.word?.kana ?? null)
   return {
-    ...state, recent, word: chooseWord(filterWords(words, state.settings), state.progress, recent),
+    ...state, word: drawn.word, deck: drawn.deck, deckPoolKey,
     input: '', hadError: false, revealed: false, round: state.round + 1,
   }
 }

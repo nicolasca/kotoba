@@ -37,6 +37,12 @@ export interface Progress {
   words: Record<string, WordProgress>
 }
 
+export interface WordRotation {
+  poolKey: string
+  current: string | null
+  remaining: string[]
+}
+
 export interface SessionStats {
   correct: number
   errors: number
